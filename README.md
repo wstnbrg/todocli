@@ -7,6 +7,7 @@ ToDoCli is a simple cli saving your time by managing your tasks from your termin
 - [Issues](#issues)
 - [Todo for first release](#todo-for-first-release)
 - [Planed features](#planed-features)
+- [License](#license)
 
 # Install
 
@@ -29,5 +30,6 @@ ToDoCli is a simple cli saving your time by managing your tasks from your termin
 
 If you like anything else feel free to contact me or hack it in your self ;)
 
-#License
-This project is licensed under the MIT License - see the LICENSE.md file for details
+# License
+
+This project is licensed under the MIT License - see the LICENSE file for details
