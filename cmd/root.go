@@ -2,7 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
+	"strconv"
+	"time"
 
 	"github.com/spf13/cobra"
 
@@ -17,9 +20,20 @@ var rootCmd = &cobra.Command{
 	Use:   "todocli",
 	Short: "Manage your tasks from your favorite place - the CLI",
 	Long:  `Sort your tasks by project and date. And the best is: dont worry about your backlog.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(cmd *cobra.Command, args []string) {
+		if _, err := os.Stat(getCurrentFilePath()); os.IsNotExist(err) {
+			fmt.Println("You currently have nothing todo :)")
+
+			return
+		}
+
+		content, err := ioutil.ReadFile(getCurrentFilePath())
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println(string(content))
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -69,4 +83,11 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err != nil {
 		fmt.Println("Error reading in config file")
 	}
+}
+
+func getCurrentFilePath() string {
+	var year, _ = time.Now().ISOWeek()
+	var _, kw = time.Now().ISOWeek()
+
+	return viper.GetString("taskdir") + "/" + strconv.Itoa(year) + "/" + strconv.Itoa(kw) + ".todo"
 }
