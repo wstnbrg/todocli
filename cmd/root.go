@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/spf13/cobra"
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
@@ -14,13 +15,15 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "todocli",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "Manage your tasks from your favorite place - the CLI",
+	Long: `Sort your tasks by project and date. And the best is: dont worry about your backlog.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+How to get started?
+todocli                         - display your active tasks and backlog
+todocli help                    - displaying this message
+todocli add some task           - add a simple task to your day
+todocli add some task +project  - add a task of a project to your day
+todocli add some task @01.01.20 - add a task to the 01.01.2020`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
