@@ -16,14 +16,7 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:   "todocli",
 	Short: "Manage your tasks from your favorite place - the CLI",
-	Long: `Sort your tasks by project and date. And the best is: dont worry about your backlog.
-
-How to get started?
-todocli                         - display your active tasks and backlog
-todocli help                    - displaying this message
-todocli add some task           - add a simple task to your day
-todocli add some task +project  - add a task of a project to your day
-todocli add some task @01.01.20 - add a task to the 01.01.2020`,
+	Long:  `Sort your tasks by project and date. And the best is: dont worry about your backlog.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
@@ -73,7 +66,7 @@ func initConfig() {
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println("Error reading in config file")
 	}
 }
