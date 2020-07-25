@@ -3,7 +3,9 @@ package cmd
 import (
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 	"unicode/utf8"
 
 	"github.com/spf13/cobra"
@@ -14,12 +16,10 @@ import (
 var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Adding tasks",
-	Long: `todocli add task name +project @kw/year
+	Long: `todocli add task name +project @cw/year
 
-+project is optional - it will fall back to 'General'
-@kw/year is currently needed - it is used to create a file under $taskdir/year/kw.todo
-
-Planned for future is to make @kw/year optional as well - leaving it will use the current week and year.`,
++project (optional) - it will fall back to 'General'
+@cw/year (optional) - it will fall back to current week and year`,
 	Run: func(cmd *cobra.Command, args []string) {
 		addTask(args)
 	},
@@ -32,7 +32,7 @@ func init() {
 func addTask(args []string) {
 	var task = ""
 	var project = "General"
-	var kw = ""
+	var cw = ""
 	var year = ""
 
 	for _, arg := range args {
@@ -41,18 +41,28 @@ func addTask(args []string) {
 		} else if strings.HasPrefix(arg, "@") {
 			dateinput := strings.Split(trimFirstRune(arg), "/")
 
-			kw = dateinput[0]
+			cw = dateinput[0]
 			year = dateinput[1]
 		} else {
 			task += arg + " "
 		}
 	}
 
+	if cw == "" {
+		var _, cwInt = time.Now().ISOWeek()
+		cw = strconv.Itoa(cwInt)
+	}
+
+	if year == "" {
+		var yearInt, _ = time.Now().ISOWeek()
+		year = strconv.Itoa(yearInt)
+	}
+
 	if _, err := os.Stat(getYearFolder(year)); os.IsNotExist(err) {
 		os.MkdirAll(getYearFolder(year), os.ModePerm)
 	}
 
-	err := ioutil.WriteFile(getFilePath(kw, year), prepareFileContent(task, project, kw, year), 0644)
+	err := ioutil.WriteFile(getFilePath(cw, year), prepareFileContent(task, project, cw, year), 0644)
 	check(err)
 }
 
@@ -71,20 +81,20 @@ func getYearFolder(year string) string {
 	return viper.GetString("taskdir") + "/" + year
 }
 
-func getFilePath(kw string, year string) string {
-	return viper.GetString("taskdir") + "/" + year + "/" + kw + ".todo"
+func getFilePath(cw string, year string) string {
+	return viper.GetString("taskdir") + "/" + year + "/" + cw + ".todo"
 }
 
-func prepareFileContent(task string, project string, kw string, year string) []byte {
-	if _, err := os.Stat(getFilePath(kw, year)); os.IsNotExist(err) {
+func prepareFileContent(task string, project string, cw string, year string) []byte {
+	if _, err := os.Stat(getFilePath(cw, year)); os.IsNotExist(err) {
 		return []byte(_prepareNewProject(task, project))
 	}
 
-	if !_checkForProject(project, kw, year) {
-		return []byte(readFile(kw, year) + _prepareNewProject(task, project))
+	if !_checkForProject(project, cw, year) {
+		return []byte(readFile(cw, year) + _prepareNewProject(task, project))
 	}
 
-	existingProjects := strings.Split(readFile(kw, year), "\n")
+	existingProjects := strings.Split(readFile(cw, year), "\n")
 	var newFileContent = ""
 	var hitProject = false
 
@@ -121,12 +131,12 @@ func _prepareNewProject(task string, project string) string {
 	return "\n" + project + ":\n" + "    [] " + task + "\n"
 }
 
-func _checkForProject(project string, kw string, year string) bool {
-	return strings.Contains(readFile(kw, year), project+":\n")
+func _checkForProject(project string, cw string, year string) bool {
+	return strings.Contains(readFile(cw, year), project+":\n")
 }
 
-func readFile(kw string, year string) string {
-	content, err := ioutil.ReadFile(getFilePath(kw, year))
+func readFile(cw string, year string) string {
+	content, err := ioutil.ReadFile(getFilePath(cw, year))
 	check(err)
 
 	return string(content)
