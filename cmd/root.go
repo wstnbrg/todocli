@@ -79,6 +79,14 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err != nil {
 		fmt.Println("Error reading in config file")
 	}
+
+	if viper.GetString("taskdir") == "" {
+		dir, err := homedir.Dir()
+		check(err)
+		dir += "/tasks"
+		viper.Set("taskdir", dir)
+		viper.WriteConfig()
+	}
 }
 
 func getCurrentFilePath() string {
@@ -96,7 +104,18 @@ func readCurrentFile() string {
 }
 
 func displayActiveTasks() {
-	var content = strings.Split(readCurrentFile(), "\n")
+	handleBacklog()
+
+	var displayContent = checkForActiveTasks(strings.Split(readCurrentFile(), "\n"))
+
+	if displayContent == "" {
+		displayContent = "You currently have nothing todo :)"
+	}
+
+	fmt.Println(displayContent)
+}
+
+func checkForActiveTasks(content []string) string {
 	var displayContent = ""
 	var hitAProject = false
 	var tmpLines = ""
@@ -131,11 +150,7 @@ func displayActiveTasks() {
 		displayContent += tmpLines
 	}
 
-	if displayContent == "" {
-		displayContent = "You currently have nothing todo :)"
-	}
-
-	fmt.Println(displayContent)
+	return displayContent
 }
 
 func checkForTasks(lines []string) bool {
@@ -150,4 +165,51 @@ func checkForTasks(lines []string) bool {
 	}
 
 	return false
+}
+
+func handleBacklog() {
+	var _, cwInt = time.Now().ISOWeek()
+	var cw = strconv.Itoa(cwInt - 1)
+
+	var yearInt, _ = time.Now().ISOWeek()
+	var year = strconv.Itoa(yearInt)
+
+	if _, err := os.Stat(getLastBackloggedFilePath()); os.IsNotExist(err) {
+		_handleBacklog(cw, year)
+		return
+	}
+
+	lastbacklogged, err := ioutil.ReadFile(getLastBackloggedFilePath())
+	check(err)
+
+	var checkCw = strings.Split(string(lastbacklogged), "/")[0]
+	var checkYear = strings.Split(string(lastbacklogged), "/")[1]
+
+	if checkCw != cw && checkYear != year {
+		_handleBacklog(cw, year)
+	}
+
+	return
+}
+
+func getLastBackloggedFilePath() string {
+	return viper.GetString("taskdir") + "/.lastbacklogged"
+}
+
+func _handleBacklog(cw string, year string) {
+	var backloggedTasks = ""
+	var scanForBacklog = readFile(cw, year)
+
+	if scanForBacklog != "" {
+		backloggedTasks = checkForActiveTasks(strings.Split(scanForBacklog, "\n"))
+	}
+
+	if backloggedTasks != "" {
+		var currentTasks = readCurrentFile()
+		var newCurrentTasks = backloggedTasks + "\n" + currentTasks
+
+		ioutil.WriteFile(getCurrentFilePath(), []byte(newCurrentTasks), 0644)
+	}
+
+	ioutil.WriteFile(getLastBackloggedFilePath(), []byte(cw+"/"+year), 0644)
 }

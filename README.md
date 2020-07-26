@@ -10,7 +10,6 @@ ToDoCli is a simple cli saving your time by managing your tasks from your termin
     - [to a specific week](#to-a-specific-week)
   - [Mark a task as done](#mark-a-task-as-done)
 - [Issues](#issues)
-- [Todo for first release](#todo-for-first-release)
 - [Planed features](#planed-features)
 - [License](#license)
 
@@ -62,18 +61,16 @@ todocli done 2 +someproject
 This will mark the second listed task of the +someproject as done. Omitting +someproject will use the "General" project instead.
 
 # Issues
-
-# Todo for first release
-- [x] adding tasks
-- [x] displaying current weeks tasks
-- [x] check done tasks
-- [ ] handle backlog
+- [ ] cant handle backlog from 2 weeks ago
+- [ ] cant handle backlog after year change
 
 # Planed features
+- [ ] show tasks of a specific week
+- [ ] configure to save todos per week or day
 - [ ] multi language support
 
 If you like anything else feel free to contact me or hack it in your self ;)
 
 # License
 
-This project is licensed under the MIT License - see the LICENSE file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/wstnbrg/todocli/blob/master/LICENSE) file for details

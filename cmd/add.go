@@ -136,6 +136,10 @@ func _checkForProject(project string, cw string, year string) bool {
 }
 
 func readFile(cw string, year string) string {
+	if _, err := os.Stat(getFilePath(cw, year)); os.IsNotExist(err) {
+		return string("")
+	}
+
 	content, err := ioutil.ReadFile(getFilePath(cw, year))
 	check(err)
 
