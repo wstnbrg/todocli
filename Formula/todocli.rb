@@ -2,16 +2,16 @@
 class Todocli < Formula
   desc "ToDoCli is a simple cli saving your time by managing your tasks from your terminal."
   homepage "https://github.com/wstnbrg/todocli"
-  version "1.0.6"
+  version "1.1.0"
   bottle :unneeded
 
   if OS.mac?
-    url "https://github.com/wstnbrg/todocli/releases/download/1.0.6/todocli_1.0.6_Darwin_x86_64.tar.gz"
-    sha256 "78313a0e6717236339cff3b6f69d0f6e11b1dc87dddb453733ae7eab36026c5a"
+    url "https://github.com/wstnbrg/todocli/releases/download/1.1.0/todocli_1.1.0_Darwin_x86_64.tar.gz"
+    sha256 "c55593a9ad1d1d8379e7cd72fd343c494b1b22aae9e080d2a7fa0d72f423c5ab"
   elsif OS.linux?
     if Hardware::CPU.intel?
-      url "https://github.com/wstnbrg/todocli/releases/download/1.0.6/todocli_1.0.6_Linux_x86_64.tar.gz"
-      sha256 "e19e326a12a7d08361454c8120fab2a7f72faac70aa91c596d0213aa47ef6c09"
+      url "https://github.com/wstnbrg/todocli/releases/download/1.1.0/todocli_1.1.0_Linux_x86_64.tar.gz"
+      sha256 "84a6fc7d0dba54c959fd89df358e3d9048e0df4cc1c119af0d6d7d879c3da4d9"
     end
   end
 
