@@ -21,6 +21,14 @@ ToDoCli is a simple cli saving your time by managing your tasks from your termin
 
 ## Using homebrew
 
+Add the formula to your system
+
+```
+brew tap wstnbrg/todocli https://github.com/wstnbrg/todocli
+```
+
+And then install it via:
+
 ```
 brew install todocli
 ```
