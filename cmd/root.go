@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -27,12 +28,7 @@ var rootCmd = &cobra.Command{
 			return
 		}
 
-		content, err := ioutil.ReadFile(getCurrentFilePath())
-		if err != nil {
-			panic(err)
-		}
-
-		fmt.Println(string(content))
+		displayActiveTasks()
 	},
 }
 
@@ -90,4 +86,64 @@ func getCurrentFilePath() string {
 	var _, kw = time.Now().ISOWeek()
 
 	return viper.GetString("taskdir") + "/" + strconv.Itoa(year) + "/" + strconv.Itoa(kw) + ".todo"
+}
+
+func readCurrentFile() string {
+	content, err := ioutil.ReadFile(getCurrentFilePath())
+	check(err)
+
+	return string(content)
+}
+
+func displayActiveTasks() {
+	var content = strings.Split(readCurrentFile(), "\n")
+	var displayContent = ""
+	var hitAProject = false
+	var tmpLines = ""
+
+	for _, line := range content {
+		if line == "" {
+			continue
+		}
+
+		if strings.HasPrefix(line, "    [x]") {
+			continue
+		}
+
+		if !strings.HasPrefix(line, "    [") && strings.HasSuffix(line, ":") {
+			if hitAProject {
+				if checkForTasks(strings.Split(tmpLines, "\n")) {
+					displayContent += tmpLines
+					tmpLines = ""
+					hitAProject = false
+				}
+			}
+
+			hitAProject = true
+			tmpLines += "\n" + line + "\n"
+			continue
+		}
+
+		tmpLines += line + "\n"
+	}
+
+	if checkForTasks(strings.Split(tmpLines, "\n")) {
+		displayContent += tmpLines
+	}
+
+	fmt.Println(displayContent)
+}
+
+func checkForTasks(lines []string) bool {
+	for _, line := range lines {
+		if line == "" {
+			continue
+		}
+
+		if strings.HasPrefix(line, "    [") && !strings.HasSuffix(line, ":") {
+			return true
+		}
+	}
+
+	return false
 }
