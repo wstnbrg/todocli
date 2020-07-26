@@ -28,7 +28,6 @@ changelog:
     exclude:
     - '^docs:'
     - '^test:'
-# .goreleaser.yml
 brews:
   - 
     name: todocli
@@ -36,6 +35,12 @@ brews:
     tap:
       owner: wstnbrg
       name: todocli
+
+    commit_author:
+      name: Henning Westenberg
+      email: westenberghenning@gmail.com
+
+    folder: dist
 
     description: "ToDoCli is a simple cli saving your time by managing your tasks from your terminal."
 
