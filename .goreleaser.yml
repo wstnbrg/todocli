@@ -12,7 +12,11 @@ builds:
       - windows
       - darwin
 archives:
-  - replacements:
+  - format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    replacements:
       darwin: Darwin
       linux: Linux
       windows: Windows

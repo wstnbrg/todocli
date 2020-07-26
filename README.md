@@ -35,7 +35,7 @@ brew install todocli
 
 ## Other
 
-Download [latest releases](https://github.com/wstnbrg/todocli/releases/) .tar.gz file that fit's your system best, extract the archive and place todocli into your path. 
+Download [latest releases](https://github.com/wstnbrg/todocli/releases/) archive file that fit's your system best, extract the archive and place todocli into your path. 
 
 
 # Usage
