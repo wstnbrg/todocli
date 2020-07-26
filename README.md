@@ -13,6 +13,9 @@ ToDoCli is a simple cli saving your time by managing your tasks from your termin
     - [to current week](#to-current-week)
     - [to a specific week](#to-a-specific-week)
   - [Mark a task as done](#mark-a-task-as-done)
+  - [Config paths](#config-paths)
+    - [Read config paths](#read-config-paths)
+    - [Set config paths](#set-config-paths)
 - [Issues](#issues)
 - [Planed features](#planed-features)
 - [License](#license)
@@ -35,7 +38,7 @@ brew install todocli
 
 ## Other
 
-Download [latest releases](https://github.com/wstnbrg/todocli/releases/) .tar.gz file that fit's your system best, extract the archive and place todocli into your path. 
+Download [latest releases](https://github.com/wstnbrg/todocli/releases/) archive file that fit's your system best, extract the archive and place todocli into your path. 
 
 
 # Usage
@@ -80,6 +83,33 @@ todocli done 2 +someproject
 ```
 
 This will mark the second listed task of the +someproject as done. Omitting +someproject will use the "General" project instead.
+
+## Config paths
+
+### Read config paths
+
+```
+todocli conf get configPath
+```
+
+Reading out config path 'taskdir'
+
+```
+todocli conf get taskdir
+```
+
+### Set config paths
+
+```
+todocli conf set configPath configValue
+```
+
+Please note that the argument configValue is the only argument that allows to have spaces in it.
+Setting the configPath taskdir
+
+```
+todocli conf set taskdir /some/path/to/save/to
+```
 
 # Issues
 - [ ] cant handle backlog from 2 weeks ago
