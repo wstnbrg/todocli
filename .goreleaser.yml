@@ -28,3 +28,15 @@ changelog:
     exclude:
     - '^docs:'
     - '^test:'
+# .goreleaser.yml
+brews:
+  - 
+    name: todocli
+
+    tap:
+      owner: wstnbrg
+      name: todocli
+
+    description: "ToDoCli is a simple cli saving your time by managing your tasks from your terminal."
+
+    skip_upload: auto

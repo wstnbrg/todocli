@@ -2,7 +2,11 @@
 
 ToDoCli is a simple cli saving your time by managing your tasks from your terminal.
 
+![goreleaser](https://github.com/wstnbrg/todocli/workflows/goreleaser/badge.svg?event=release)
+
 - [Install](#install)
+  - [Using homebrew](#using-homebrew)
+  - [Other](#other)
 - [Usage](#usage)
   - [List active tasks](#list-active-tasks)
   - [Add tasks](#add-tasks)
@@ -15,7 +19,16 @@ ToDoCli is a simple cli saving your time by managing your tasks from your termin
 
 # Install
 
-{ToBeFilled}
+## Using homebrew
+
+```
+brew install todocli
+```
+
+## Other
+
+Download [latest releases](https://github.com/wstnbrg/todocli/releases/) .tar.gz file that fit's your system best, extract the archive and place todocli into your path. 
+
 
 # Usage
 
