@@ -105,7 +105,7 @@ func prepareFileContent(task string, project string, cw string, year string) []b
 
 		if !strings.HasPrefix(line, "    [") && strings.HasSuffix(line, ":") {
 			if hitProject {
-				newFileContent += "    [] " + task + "\n"
+				newFileContent += "    [ ] " + task + "\n"
 				hitProject = false
 			}
 
@@ -121,14 +121,14 @@ func prepareFileContent(task string, project string, cw string, year string) []b
 	}
 
 	if hitProject {
-		newFileContent += "    [] " + task + "\n"
+		newFileContent += "    [ ] " + task + "\n"
 	}
 
 	return []byte(newFileContent)
 }
 
 func _prepareNewProject(task string, project string) string {
-	return "\n" + project + ":\n" + "    [] " + task + "\n"
+	return "\n" + project + ":\n" + "    [ ] " + task + "\n"
 }
 
 func _checkForProject(project string, cw string, year string) bool {

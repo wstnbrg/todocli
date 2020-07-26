@@ -131,6 +131,10 @@ func displayActiveTasks() {
 		displayContent += tmpLines
 	}
 
+	if displayContent == "" {
+		displayContent = "You currently have nothing todo :)"
+	}
+
 	fmt.Println(displayContent)
 }
 
